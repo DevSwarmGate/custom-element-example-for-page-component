@@ -1,0 +1,41 @@
+<link rel="import" href="./my-ele.html">
+<template id = 'my-page'>
+   <my-ele><my-ele>
+</template>
+<script type="text/javascript">
+(function(){
+    const  OWNER = (document._currentScript || document.currentScript).ownerDocument;
+
+    class MyPage extends HTMLElement{
+        constructor(){
+            super();
+            this.attachShadow({mode: 'open'});
+            this.template = OWNER.querySelector('template');
+            this.shadowRoot.appendChild(this.template.content.cloneNode(true));
+
+            this._myEle = this.shadowRoot.querySelector('my-ele');
+
+            this._init();
+        }
+
+        _init(){
+            this._myEle.onClick = (evt)=>{
+                this._createEvent(evt.target,this);
+            }
+        }
+        
+        _createEvent(target,component){
+            let event = new CustomEvent("myEvent", {
+                detail:{
+                    target:target,
+                    component:component
+                }
+            });
+
+            this.dispatchEvent(event);
+        }
+    }
+
+    window.customElements.define('my-page', MyPage);
+}());
+</script>

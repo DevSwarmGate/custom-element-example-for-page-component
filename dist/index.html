@@ -1,0 +1,19 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>page component demo</title>
+    <link rel="import" href="./my-page.html">
+</head>
+<body>
+    <my-page></my-page>
+</body>
+</html>
+<script type="text/javascript">
+(function(){
+    let ele = document.querySelector('my-page');
+
+    ele.addEventListener('myEvent',(e)=>{
+        console.log('customEvent:',e);
+    });
+}());
+</script>

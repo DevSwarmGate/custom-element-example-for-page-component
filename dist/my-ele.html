@@ -1,0 +1,34 @@
+<template id = 'my-ele'>
+    <div>my-ele</div>
+</template>
+<script type="text/javascript">
+(function(){
+    let  OWNER = (document._currentScript || document.currentScript).ownerDocument;
+
+    class MyEle extends HTMLElement{
+        constructor(){
+            super();
+            this.attachShadow({mode: 'open'});
+            this.template = OWNER.querySelector('template');
+            this.shadowRoot.appendChild(this.template.content.cloneNode(true));
+
+            this._onClick = (e)=>{console.log('my-ele clicked',e);}
+
+            this._init();
+        }
+        
+        set onClick(cb){this._onClick=cb}
+
+        _init(){
+            this._btn = this.shadowRoot.querySelector('div');
+            this._btn.addEventListener('click',this._handle_click.bind(this));
+        }
+
+        _handle_click(evt){
+            this._onClick(evt);
+        }
+    }
+
+    window.customElements.define('my-ele', MyEle);
+}());
+</script>
